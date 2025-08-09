@@ -1,0 +1,149 @@
+.card {
+  width: 265px;
+  height: 500px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+  .card-header {
+    height: 250px;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #f1f3fb;
+    border-radius: 5px 5px 0 0;
+
+    .card-image {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    .card-image:hover {
+      transform: scale(0.98);
+    }
+  }
+
+  .card-body {
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 10px;
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .product-price {
+      font-weight: bold;
+      font-size: 20px;
+      color: red;
+    }
+
+    .card-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-category,
+    .card-price {
+      margin: 0;
+    }
+  }
+}
+
+svg {
+ width: 25px;
+ height: 25px;
+}
+
+.title-ellipsis {
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+.description-ellipsis {
+  height: 75px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+/* From Uiverse.io by Randdose */
+.cart-button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.25rem 1.25rem;
+  border: lightslategrey solid 0.15rem;
+  border-radius: 0.25rem;
+  color: lightslategrey;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border 300ms, color 300ms;
+  user-select: none;
+}
+
+.cart-button p {
+  z-index: 1;
+}
+
+.cart-button:hover {
+  color: #212121;
+}
+
+.cart-button:active {
+  border-color: lightslategrey;
+}
+
+.cart-button::after,
+.cart-button::before {
+  content: "";
+  position: absolute;
+  width: 9rem;
+  aspect-ratio: 1;
+  background: lightslategrey;
+  opacity: 50%;
+  border-radius: 50%;
+  transition: transform 500ms, background 300ms;
+}
+
+.cart-button::before {
+  left: 0;
+  transform: translateX(-8em);
+}
+
+.cart-button::after {
+  right: 0;
+  transform: translateX(8em);
+}
+
+.cart-button:hover:before {
+  transform: translateX(-1em);
+}
+
+.cart-button:hover:after {
+  transform: translateX(1em);
+}
+
+.cart-button:active:before,
+.cart-button:active:after {
+  background: lightlightslategrey;
+}

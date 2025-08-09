@@ -1,0 +1,5 @@
+<div class="m-auto p-0 d-flex flex-row flex-wrap">
+    @for (product of products(); track product.id) {
+        <app-product-card [product]="product"></app-product-card>
+    }
+</div>

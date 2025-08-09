@@ -1,0 +1,13 @@
+<div class="toast-container">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast-item" [ngClass]="toast.type">
+      <div class="toast-content">
+        <span>{{ toast.message }}</span>
+      </div>
+      <div
+        class="progress-bar"
+        [style.animation-duration.ms]="toast.duration">
+      </div>
+    </div>
+  }
+</div>

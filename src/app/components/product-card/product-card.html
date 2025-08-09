@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-header">
+    <img [src]="product.image" [alt]="product.title" class="card-image" />
+  </div>
+  <div class="card-body">
+    <h5 class="card-title title-ellipsis">{{ product.title }}</h5>
+    <p class="card-price">
+      Price:
+      <span class="product-price">{{ product.price | currency : "USD" }}</span>
+    </p>
+    <p class="card-text description-ellipsis">{{ product.description }}</p>
+    <div class="card-details mb-3">
+      <p class="card-category">{{ product.stock }} in stock</p>
+      <button class="cart-button" (click)="addToCart(product)">
+        <i class="bi bi-cart3 fs-5 me-1"></i>
+        <span>Add to cart</span>
+      </button>
+    </div>
+  </div>
+</div>

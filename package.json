@@ -2,12 +2,15 @@
   "name": "e-kart",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:e-kart": "node dist/e-kart/server/server.mjs"
+    "start": "cd backend && npm start",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && ng serve",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd frontend && ng build",
+    "build:prod": "cd frontend && ng build --configuration production && cd ../backend && npm run build && cd ..",
+    "start:prod": "cd backend && npm start",
+    "test": "cd frontend && ng test",
+    "lint": "cd frontend && ng lint"
   },
   "prettier": {
     "overrides": [
@@ -29,7 +32,18 @@
     "@angular/platform-server": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@angular/ssr": "^20.1.4",
+    "@ng-bootstrap/ng-bootstrap": "^19.0.1",
+    "@popperjs/core": "^2.11.8",
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.7",
+    "bootstrap-icons": "^1.13.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -37,15 +51,19 @@
     "@angular/build": "^20.1.4",
     "@angular/cli": "^20.1.4",
     "@angular/compiler-cli": "^20.1.0",
+    "@angular/localize": "^20.1.0",
+    "@types/bootstrap": "^5.2.10",
     "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",
+    "concurrently": "^9.2.0",
     "jasmine-core": "~5.8.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.1.10",
     "typescript": "~5.8.2"
   }
 }

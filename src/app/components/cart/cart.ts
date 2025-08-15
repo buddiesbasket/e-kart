@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 import { Product } from '../../services/product.service';
@@ -17,6 +17,7 @@ export class Cart {
   get cartItems() {
     return this.cartService.getCartItems();
   }
+
   get totalCount() {
     return this.cartService.getCartCount();
   }
@@ -25,11 +26,11 @@ export class Cart {
     return this.cartService.getCartSubtotal();
   }
 
-  proceedToCheckout() {
+  protected proceedToCheckout() {
     // Implement checkout logic here
   }
 
-  removeFromCart(item: Product){
+  protected removeFromCart(item: Product){
     this.cartService.removeFromCart(item);
   }
 }

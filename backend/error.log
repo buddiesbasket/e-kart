@@ -1,0 +1,1 @@
+{"level":"error","message":"Error in register service: User validation failed: name: Path `name` is required.","timestamp":"2025-08-10T14:12:26.246Z"}

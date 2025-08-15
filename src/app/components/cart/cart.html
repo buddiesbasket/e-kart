@@ -1,7 +1,7 @@
 @if(cartItems().length){ @for(item of cartItems(); track item.product.id) {
 <div class="card d-flex flex-row justify-space-between align-items-center mb-1 p-1">
     <div>
-        <img [src]="item.product.image" [alt]="item.product.title" class="cart-item-image" />
+        <img [src]="item.product.images[0]" [alt]="item.product.title" class="cart-item-image" />
     </div>
     <div class="ms-3">
         <h6 class="title-ellipsis">{{ item.product.title }}</h6>
@@ -11,21 +11,19 @@
         </h6>
     </div>
     <div>
-        <!-- <i class="bi bi-trash3 text-danger fs-5" (click)="removeFromCart(item.product)"></i> -->
         <button class="btn btn-outline-danger btn-sm rounded-circle p-1 border-0" (click)="removeFromCart(item.product)"
             title="Remove from cart">
             <i class="bi bi-trash3 fs-5"></i>
         </button>
     </div>
 </div>
-} } @else {
-<p class="text-center text-muted">Cart is empty.</p>
-} @if(cartItems().length){
 <div class="d-flex justify-content-between align-items-center fw-bold px-1 my-2">
     <span>Subtotal: </span>
     <span>{{ cartSubtotal | currency : "USD" }}</span>
 </div>
-}
-<button class="btn btn-primary w-100" (click)="proceedToCheckout()">
+<button class="btn btn-success w-100" (click)="proceedToCheckout()">
     Checkout
 </button>
+} } @else {
+<p class="text-center text-muted">Cart is empty.</p>
+}

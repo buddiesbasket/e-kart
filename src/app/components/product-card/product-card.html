@@ -1,20 +1,42 @@
-<div class="card">
-  <div class="card-header">
-    <img [src]="product.image" [alt]="product.title" class="card-image" />
-  </div>
-  <div class="card-body">
-    <h5 class="card-title title-ellipsis">{{ product.title }}</h5>
-    <p class="card-price">
-      Price:
-      <span class="product-price">{{ product.price | currency : "USD" }}</span>
-    </p>
-    <p class="card-text description-ellipsis">{{ product.description }}</p>
-    <div class="card-details mb-3">
-      <p class="card-category">{{ product.stock }} in stock</p>
-      <button class="cart-button" (click)="addToCart(product)">
-        <i class="bi bi-cart3 fs-5 me-1"></i>
-        <span>Add to cart</span>
-      </button>
+@if (isSkeleton) {
+  <!-- Skeleton Loader -->
+  <div class="card skeleton-card">
+    <div class="card-header skeleton-image"></div>
+    <div class="card-body">
+      <h5 class="card-title skeleton-text"></h5>
+      <div class="skeleton-text short"></div>
+      <div class="skeleton-text"></div>
     </div>
   </div>
-</div>
+}
+
+@if (!isSkeleton && product) {
+  <div class="card">
+    <div class="card-header" [class.disabled-card]="product.stock === 0"
+      (click)="product.stock > 0 && goToDetail(product)">
+      <img [src]="product.images[0]" [alt]="product.title" class="card-image" loading="lazy" decoding="async" />
+    </div>
+    <div class="card-body">
+      <h5 class="card-title title-ellipsis" [class.disabled-card]="product.stock === 0"
+        (click)="product.stock > 0 && goToDetail(product)">{{ product.title }}</h5>
+      <div class="product-details" [class.disabled-card]="product.stock === 0">
+        <p class="card-price">
+          Price:
+          <span class="product-price">{{ product.price | currency : "USD" }}</span>
+        </p>
+        <div class="product-rating">
+          <span class="stars">
+            @for (star of utilService.getStars(product.rating); track $index) {
+              <i class="bi" [ngClass]="{
+                'bi-star-fill': star.type === 'full',
+                'bi-star-half': star.type === 'half',
+                'bi-star': star.type === 'empty'
+              }"></i>
+            }
+          </span>
+          <span class="rating-value ms-1">{{ product.rating }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}

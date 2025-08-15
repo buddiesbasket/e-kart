@@ -1,33 +1,56 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { Cart } from '../cart/cart';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+import { SearchService } from '../../services/search.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-nav-bar',
-  imports: [Cart, RouterLink, RouterLinkActive],
+  imports: [Cart, RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavBar implements OnInit{
+export class NavBar {
   private cartService = inject(CartService);
-  private authService = inject(AuthService);
-  protected isLoggedIn = computed(() => this.authService.isLoggedIn());
-  protected user = computed(() => this.authService.getUser());
+  protected authService = inject(AuthService);
+  protected toastService = inject(ToastService);
+  private searchService = inject(SearchService);
 
-  cartCount = computed(() => this.cartService.getCartCount());
+  protected cartCount = computed(() => this.cartService.getCartCount());
+  protected currentUser = computed(() => {
+    const user = this.authService.user();
+    return user
+      ? {
+          ...user,
+          username: user.name || 'User', // Fallback for username
+        }
+      : null;
+  });
 
-  ngOnInit(): void {
-
+  protected onSearch(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchService.setQuery(value);
   }
 
-   logout() {
+  protected logout() {
     this.authService.logout().subscribe({
-      next: (res: any) => console.log('Logout response: ', res),
-      error: err => console.log('Logout error:', err),
+      next: (res: { message: string }) => {
+        this.toastService.show(
+          'success',
+          res.message || 'You have been logged out successfully'
+        );
+      },
+      error: () => this.toastService.show('success', 'Logged out successfully'),
     });
   }
 }

@@ -1,1 +1,186 @@
-<p>product-detail works!</p>
+<!-- Loading State -->
+@if (loading()) {
+<div class="product-detail-container skeleton-container">
+    <!-- Left Column - Thumbnails -->
+    <div class="thumbnail-column">
+        <div class="thumbnail-container">
+            @for (_ of [].constructor(5); track $index) {
+            <div class="thumbnail skeleton-box"></div>
+            }
+        </div>
+    </div>
+
+    <!-- Middle Column - Main Image -->
+    <div class="gallery-column">
+        <div class="main-image-container">
+            <div class="skeleton-box skeleton-main-image"></div>
+        </div>
+    </div>
+
+    <!-- Right Column - Info -->
+    <div class="product-info-column">
+        <div class="skeleton-text skeleton-title"></div>
+        <div class="skeleton-stars"></div>
+        <div class="skeleton-text skeleton-price"></div>
+        <div class="skeleton-text skeleton-stock"></div>
+        @for (_ of [].constructor(4); track $index) {
+        <div class="skeleton-text"></div>
+        }
+        <div class="skeleton-button"></div>
+        <div class="skeleton-button"></div>
+    </div>
+</div>
+}
+
+@if (product) {
+<div class="product-detail-container">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb-nav">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/products-list">Products</a></li>
+            <li class="breadcrumb-item active">{{ product.category }}</li>
+        </ol>
+    </nav>
+
+    <div class="product-main-section">
+        <!-- Left Column - Image Thumbnails -->
+        <div class="thumbnail-column">
+            <div class="thumbnail-container">
+                @for (image of product.images; let i = $index; track i) {
+                <div class="thumbnail" [class.active]="i === currentImageIndex" (click)="currentImageIndex = i">
+                    <img [src]="image" [alt]="product.title + ' thumbnail ' + (i + 1)">
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Middle Column - Main Image Gallery -->
+        <div class="gallery-column">
+            <div class="main-image-container">
+                <button class="button-nav prev" (click)="navigateImage('prev', product.images)"
+                    [disabled]="currentImageIndex === 0">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <!-- Zoom Container -->
+                <div class="zoom-container" (mousemove)="moveLens($event)" (mouseenter)="showZoom()"
+                    (mouseleave)="hideZoom()" (click)="openImageModal(currentImageIndex)">
+                    <img #mainImage [src]="product.images[currentImageIndex]" class="main-image" />
+                    @if(isZoomVisible){
+                    <div class="lens" [ngStyle]="lensStyle"></div>
+                    }
+                </div>
+
+                <button class="button-nav next" (click)="navigateImage('next', product.images)"
+                    [disabled]="currentImageIndex === product.images.length - 1">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+
+                <!-- Zoom Result Panel -->
+                @if(isZoomVisible){
+                <div class="card zoom-result p-0">
+                    <img [src]="product.images[currentImageIndex]" [ngStyle]="zoomImageStyle" />
+                </div>
+                }
+            </div>
+        </div>
+
+
+        <!-- Right Column - Product Info -->
+        <div class="product-info-column">
+            <h1 class="product-title">{{ product.title }}</h1>
+
+            <div class="product-rating">
+                <span class="stars">
+                    @for (star of utilService.getStars(product.rating); track $index) {
+                    <i class="bi" [ngClass]="{
+                    'bi-star-fill': star.type === 'full',
+                    'bi-star-half': star.type === 'half',
+                    'bi-star': star.type === 'empty'
+                    }"></i>
+                    }
+                </span>
+                <span class="rating-value">{{ product.rating }}</span>
+            </div>
+
+            <div class="price-section">
+                <span class="current-price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+                <span class="shipping-info">+ $10.99 Shipping</span>
+            </div>
+
+            <div class="availability">
+                @if (product && product.stock > 0) {
+                <span class="in-stock">In Stock ({{ product.stock }} available)</span>
+                } @else {
+                <span class="out-of-stock">Currently Unavailable</span>
+                }
+            </div>
+
+            <div class="product-description">
+                <h3>About this item</h3>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <div class="product-actions">
+                <div class="input-group me-3" style="width: 120px;">
+                    <button class="btn btn-outline-dark" type="button" (click)="decrementQuantity()">-</button>
+                    <input type="text" class="form-control text-center" [(ngModel)]="quantity" readonly>
+                    <button class="btn btn-outline-dark" type="button" (click)="incrementQuantity()">+</button>
+                </div>
+                <button class="cart-button"
+                    style="--btn-border-color: orange; --btn-text-color: orange; --btn-hover-text-color: darkorange; --btn-circle-bg: orange;"
+                    (click)="addToCart(product)">
+                    <i class="bi bi-cart-check fs-5 me-1"></i>
+                    <span>Add to cart</span>
+                </button>
+
+                <button class="cart-button px-4"
+                    style="--btn-border-color: #ff5722; --btn-text-color: #ff5722; --btn-hover-text-color: #ff5722; --btn-circle-bg: #ff5722;"
+                    (click)="buyNow(product)">
+                    <i class="bi bi-cart-check-fill fs-5 me-1"></i>
+                    <span>Buy Now</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products Section -->
+<div class="related-products-section">
+    <h2 class="fs-6 text-center fs-md-5">Customers who viewed this item also viewed</h2>
+    <div class="related-products-grid d-flex flex-row flex-wrap justify-content-center">
+        @for (relatedProduct of (relatedProducts$ | async) ?? []; track relatedProduct) {
+        @if(relatedProduct){
+        <app-product-card [product]="relatedProduct"></app-product-card>
+        }
+        }
+    </div>
+</div>
+
+<!-- Image Modal -->
+<ng-template #imageModel let-modal>
+    <div class="modal-header">
+        <button type="button" class="close-modal" (click)="modal.dismiss()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <button class="button-nav prev" (click)="navigateImage('prev', product.images)"
+            [disabled]="currentImageIndex === 0">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <img [src]="product.images[currentImageIndex]" [alt]="product.title + ' full view'" class="modal-image" />
+
+        <button class="button-nav next" (click)="navigateImage('next', product.images)"
+            [disabled]="currentImageIndex === product.images.length - 1">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    <div class="modal-footer">
+        <p>Image {{ currentImageIndex + 1 }} of {{ product.images.length }}</p>
+    </div>
+</ng-template>
+}

@@ -1,6 +1,6 @@
 .card {
   width: 265px;
-  height: 500px;
+  height: 350px;
   margin: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -12,6 +12,7 @@
     padding: 10px 0;
     background-color: #f1f3fb;
     border-radius: 5px 5px 0 0;
+    cursor: pointer;
 
     .card-image {
       height: 100%;
@@ -22,6 +23,12 @@
     .card-image:hover {
       transform: scale(0.98);
     }
+  }
+
+  .disabled-card {
+    pointer-events: none; /* Prevent all clicks */
+    opacity: 0.5; /* Visual indication */
+    cursor: not-allowed;
   }
 
   .card-body {
@@ -35,11 +42,12 @@
       font-size: 18px;
       font-weight: bold;
       margin: 5px 0;
+      cursor: pointer;
     }
 
     .product-price {
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       color: red;
     }
 
@@ -57,8 +65,8 @@
 }
 
 svg {
- width: 25px;
- height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .title-ellipsis {
@@ -72,78 +80,59 @@ svg {
   white-space: normal;
 }
 
-.description-ellipsis {
-  height: 75px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  white-space: normal;
-}
-
-/* From Uiverse.io by Randdose */
-.cart-button {
-  all: unset;
+.product-details {
   display: flex;
   align-items: center;
-  position: relative;
-  padding: 0.25rem 1.25rem;
-  border: lightslategrey solid 0.15rem;
-  border-radius: 0.25rem;
-  color: lightslategrey;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 15px;
+
+  .stars {
+    color: #ffa41c;
+  }
+
+  .rating-value {
+    color: #007185;
+    font-size: 16px;
+  }
+}
+
+.product-rating .bi-star-fill,
+.product-rating .bi-star-half {
+  color: gold;
+}
+
+.product-rating .bi-star {
+  color: lightgray;
+}
+
+.skeleton-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   overflow: hidden;
-  transition: border 300ms, color 300ms;
-  user-select: none;
 }
 
-.cart-button p {
-  z-index: 1;
+.skeleton-image {
+  height: 200px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 37%, #e0e0e0 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
 }
 
-.cart-button:hover {
-  color: #212121;
+.skeleton-text {
+  height: 16px;
+  margin: 8px 0;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 37%, #e0e0e0 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 4px;
 }
 
-.cart-button:active {
-  border-color: lightslategrey;
+.skeleton-text.short {
+  width: 50%;
 }
 
-.cart-button::after,
-.cart-button::before {
-  content: "";
-  position: absolute;
-  width: 9rem;
-  aspect-ratio: 1;
-  background: lightslategrey;
-  opacity: 50%;
-  border-radius: 50%;
-  transition: transform 500ms, background 300ms;
-}
-
-.cart-button::before {
-  left: 0;
-  transform: translateX(-8em);
-}
-
-.cart-button::after {
-  right: 0;
-  transform: translateX(8em);
-}
-
-.cart-button:hover:before {
-  transform: translateX(-1em);
-}
-
-.cart-button:hover:after {
-  transform: translateX(1em);
-}
-
-.cart-button:active:before,
-.cart-button:active:after {
-  background: lightlightslategrey;
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
 }

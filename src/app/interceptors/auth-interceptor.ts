@@ -10,7 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     token = localStorage.getItem('token');
   }
 
-  if (token) {
+  if (token && !req.url.includes('logout')) {
     const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

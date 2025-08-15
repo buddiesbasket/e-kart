@@ -1,5 +1,33 @@
-<div class="m-auto p-0 d-flex flex-row flex-wrap">
+<div class="{{ errorMessage() 
+      ? 'container vh-70' 
+      : 'm-auto p-0 d-flex flex-row flex-wrap justify-content-center' }}">
+    @if (initialLoading()) {
+    <!-- Show multiple skeleton cards -->
+    @for (placeholder of [].constructor(8); track $index) {
+    <app-product-card [isSkeleton]="true"></app-product-card>
+    }
+    }
+
+    @if(errorMessage()){
+    <h5>{{errorMessage()}}</h5>
+    }
+
+    @if(products().length === 0){
+    <h5 class="container d-flex justify-content-center align-items-center h-100">No Products to dislay.</h5>
+    }
+
+    <!-- Show loaded products -->
+    @if (!initialLoading() && !errorMessage()) {
     @for (product of products(); track product.id) {
-        <app-product-card [product]="product"></app-product-card>
+    <app-product-card [product]="product"></app-product-card>
+    <div id="load-more-sentinel" style="height: 1px;"></div>
+    }
+    }
+
+    <!-- Loading more skeletons (infinite scroll) -->
+    @if(loadingMore()) {
+    @for (placeholder of [].constructor(4); track $index) {
+    <app-product-card [isSkeleton]="true"></app-product-card>
+    }
     }
 </div>

@@ -1,18 +1,24 @@
-import morgan from 'morgan';
-import { Request, Response } from 'express';
+import winston from 'winston';
 
-morgan.token('message', (_req: Request, res: Response) => res.locals.errorMessage || '');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
-export const successHandler = morgan(
-  ':method :url :status - :response-time ms',
-  {
-    skip: (_req: Request, res: Response) => res.statusCode >= 400,
-  }
-);
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    })
+  );
+}
 
-export const errorHandler = morgan(
-  ':method :url :status - :response-time ms - message: :message',
-  {
-    skip: (_req: Request, res: Response) => res.statusCode < 400,
-  }
-);
+export default logger;

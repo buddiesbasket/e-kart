@@ -19,7 +19,8 @@ export class Register {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
 
-  registerForm = this.fb.group(
+  protected submitted = false;
+  protected registerForm = this.fb.group(
     {
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -37,13 +38,12 @@ export class Register {
     { validators: this.passwordsMatch }
   );
 
-  submitted = false;
 
   get f() {
     return this.registerForm.controls;
   }
 
-  passwordsMatch(form: any) {
+  protected passwordsMatch(form: any) {
     const passwordControl = form.get('password');
     const confirmPasswordControl = form.get('confirmPassword');
 
@@ -61,20 +61,19 @@ export class Register {
     return null; // Return null to indicate no form-level error
   }
 
-  register() {
-    this.submitted = true;
-    console.log('Registering user:', this.registerForm.value);
+  protected register() {
     if (this.registerForm.invalid) return;
+    this.submitted = true;
     const { fullName, email, phone, password } = this.registerForm.value;
     this.authService.register(fullName!, email!, phone!, password!).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.toastService.show('success', 'Registration successful');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
         this.submitted = false;
         this.registerForm.reset();
       },
       error: (err) => {
-        // this.toastService.show('error', err.error?.message || 'Registration failed');
+        this.toastService.show('error', err.error?.message || 'Registration failed');
         this.submitted = false;
       }
     });

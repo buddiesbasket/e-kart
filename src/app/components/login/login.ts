@@ -19,9 +19,9 @@ export class Login {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
 
-  loading = false;
+  protected loading = false;
 
-  loginForm = this.fb.group({
+  protected loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',
@@ -45,8 +45,7 @@ export class Login {
     return this.loginForm.controls;
   }
 
-  login() {
-    console.log('Login form value:', this.loginForm.value);
+  protected login() {
     if (this.loginForm.invalid) {
       this.toastService.show(
         'error',
@@ -67,8 +66,8 @@ export class Login {
       },
       error: (err) => {
         console.log('Login error:', err);
-        // const msg = err.error?.message || 'Login failed. Please try again.';
-        // this.toastService.show('error', msg);
+        const msg = err?.error?.message || 'Login failed. Please try again.';
+        this.toastService.show('error', err.message || msg);
       },
       complete: () => {
         this.loading = false;

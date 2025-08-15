@@ -10,7 +10,7 @@
                     <button class="btn btn-dark btn-lg px-4 py-2" routerLink="/products">Shop Now</button>
                 </div>
                 <div class="col-lg-6 d-none d-lg-block">
-                    <img [src]="heroImage" alt="Modern shopping" class="img-fluid rounded-3 shadow">
+                    <img [src]="utilService.heroImage" alt="Modern shopping" class="img-fluid rounded-3 shadow">
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="container">
             <h2 class="text-center mb-5">Shop by Category</h2>
             <div class="row g-4">
-                @for (category of featuredCategories; track category.id) {
+                @for (category of utilService.featuredCategories; track category.id) {
                 <div class="col-md-4">
                     <div class="card category-card h-100 border-0 shadow-sm rounded-3 overflow-hidden"
                         (click)="navigateToCategory(category.id)">
@@ -60,7 +60,7 @@
                 <a routerLink="/products" class="btn btn-outline-dark">View All</a>
             </div>
             <div class="row g-4">
-                @for (product of featuredProducts; track product.id) {
+                @for (product of featuredProducts(); track product.id) {
                 <div class="col-md-6 col-lg-3">
                     <div class="card product-card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
                         <div class="position-relative">
@@ -75,7 +75,7 @@
                                 </button>
                             </div>
                             <div class="badge bg-danger position-absolute top-0 end-0 m-2">
-                                -{{product.discountPercentage}}%</div>
+                                -{{product.discount}}%</div>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -104,7 +104,7 @@
         <div class="container">
             <h2 class="text-center mb-5">What Our Customers Say</h2>
             <div class="row g-4">
-                @for (review of customerReviews; track review.name) {
+                @for (review of utilService.customerReviews; track review.name) {
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm rounded-3">
                         <div class="card-body">
@@ -134,14 +134,15 @@
     </section>
 
     <!-- Brands Section -->
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-light mb-3">
         <div class="container">
             <h2 class="text-center mb-5">Brands We Trust</h2>
             <div class="row g-4 align-items-center justify-content-center">
-                @for (brand of brands; track brand.name) {
+                @for (brand of utilService.brands; track brand.name) {
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="brand-logo p-3 d-flex align-items-center justify-content-center">
-                        <img [src]="brand.logo" [alt]="brand.name" class="img-fluid" style="max-height: 50px;">
+                        <img [src]="brand.logo" [alt]="brand.name" class="img-fluid" loading="lazy" width="100"
+                            height="100" [alt]="brand.name">
                     </div>
                 </div>
                 }
@@ -150,7 +151,7 @@
     </section>
 
     <!-- Newsletter -->
-    <section class="py-5 bg-dark text-white">
+    <section class="py-5 bg-dark text-white mb-3">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
@@ -163,64 +164,45 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Social Media -->
-    <section class="py-4 bg-black text-white">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <h5 class="mb-0">Follow Us</h5>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex justify-content-md-end justify-content-center">
-                        <a href="#" class="text-white me-3 fs-5"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white me-3 fs-5"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-white me-3 fs-5"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white me-3 fs-5"><i class="bi bi-pinterest"></i></a>
-                        <a href="#" class="text-white fs-5"><i class="bi bi-tiktok"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section>   
 </main>
 
 <!-- Quick View Modal -->
 <ng-template #quickViewModal let-modal>
+    @if(selectedProduct){
     <div class="modal-header border-0">
-        <h5 class="modal-title">{{selectedProduct?.title}}</h5>
+        <h5 class="modal-title">{{selectedProduct.title}}</h5>
         <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
-                <img [src]="selectedProduct?.thumbnail" [alt]="selectedProduct?.title" class="img-fluid rounded-3">
+                <img [src]="selectedProduct.thumbnail" [alt]="selectedProduct.title" class="img-fluid rounded-3">
             </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h4>{{selectedProduct?.title}}</h4>
-                        <p class="text-muted">{{selectedProduct?.brand}}</p>
+                        <h4>{{selectedProduct.title}}</h4>
+                        <p class="text-muted">{{selectedProduct.brand}}</p>
                     </div>
                     <div class="text-warning">
                         <i class="bi bi-star-fill"></i>
-                        {{selectedProduct?.rating}}
+                        {{selectedProduct.rating}}
                     </div>
                 </div>
-                <p>{{selectedProduct?.description}}</p>
+                <p>{{selectedProduct.description}}</p>
                 <div class="d-flex align-items-center mb-3">
-                    <h3 class="mb-0 me-2">${{selectedProduct?.price | number:'1.2-2'}}</h3>
+                    <h3 class="mb-0 me-2">${{selectedProduct.price | number:'1.2-2'}}</h3>
                     <span class="text-danger">
-                        <del>${{(selectedProduct?.price / (1 - (selectedProduct?.discountPercentage/100))) |
+                        <del>${{(selectedProduct.price / (1 - (selectedProduct.discount/100))) |
                             number:'1.2-2'}}</del>
-                        ({{selectedProduct?.discountPercentage}}% off)
+                        ({{selectedProduct.discount}}% off)
                     </span>
                 </div>
                 <div class="d-flex mb-4">
                     <div class="input-group me-3" style="width: 120px;">
                         <button class="btn btn-outline-dark" type="button" (click)="decrementQuantity()">-</button>
-                        <input type="text" class="form-control text-center" [(ngModel)]="quantity">
+                        <input type="text" class="form-control text-center" [(ngModel)]="quantity" readonly>
                         <button class="btn btn-outline-dark" type="button" (click)="incrementQuantity()">+</button>
                     </div>
                     <button class="btn btn-dark flex-grow-1" (click)="addToCart(selectedProduct)">Add to Cart</button>
@@ -233,4 +215,5 @@
             </div>
         </div>
     </div>
+    }
 </ng-template>

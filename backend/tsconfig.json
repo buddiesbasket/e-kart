@@ -15,9 +15,9 @@
       "@controllers/*": ["src/controllers/*"],
       "@models/*": ["src/models/*"],
       "@interfaces/*": ["src/interfaces/*"],
-      "@middlewares/*": ["src/middlewares/*"],
+      "@middlewares/*": ["src/middleware/*"],
       "@routes/*": ["src/routes/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
     },
     "plugins": [
       { "transform": "tsconfig-paths/transform" }

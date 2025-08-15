@@ -1,0 +1,28 @@
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-10T09:15:52.166Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-10T09:15:52.223Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-10T09:15:52.224Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-10T13:26:56.112Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-10T13:26:56.368Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-10T13:26:56.485Z"}
+{"level":"error","message":"Error in register service: User validation failed: name: Path `name` is required.","timestamp":"2025-08-10T14:12:26.246Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-10T14:56:35.874Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-10T14:56:35.931Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-10T14:56:35.933Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-11T13:13:32.580Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-11T13:13:32.707Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-11T13:13:32.717Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-12T06:24:00.486Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-12T06:24:00.624Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-12T06:24:00.656Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-13T06:17:52.693Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-13T06:17:52.755Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-13T06:17:52.757Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-13T12:56:26.592Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-13T12:56:26.634Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-13T12:56:26.635Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-13T13:04:43.711Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-13T13:04:43.756Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-13T13:04:43.757Z"}
+{"level":"info","message":"JWT configuration validated successfully","timestamp":"2025-08-13T15:11:22.175Z"}
+{"level":"info","message":"Server running in development mode on port 5000","timestamp":"2025-08-13T15:11:22.215Z"}
+{"level":"info","message":"Health check: http://localhost:5000/api/health","timestamp":"2025-08-13T15:11:22.217Z"}
